@@ -18,6 +18,7 @@ import {
   EuiFormRow,
 } from '@elastic/eui';
 import { getIndex, postGeojson } from '../services';
+import { ShowModal } from './show_error_modal';
 import { MAX_FILE_PAYLOAD_SIZE, MAX_FILE_PAYLOAD_SIZE_IN_MB } from '../../common';
 import { toMountPoint, useOpenSearchDashboards } from '../../../../../../src/plugins/opensearch_dashboards_react/public';
 import { RegionMapOptionsProps } from '../../../../../../src/plugins/region_map/public';
@@ -164,6 +165,7 @@ const VectorUploadOptions = (props: RegionMapOptionsProps) => {
     const successfullyIndexedRecordCount = result.resp.success;
     const failedToIndexRecordCount = result.resp.failure;
     const totalRecords = result.resp.total;
+
     if (successfullyIndexedRecordCount === totalRecords) {
       notifications.toasts.addSuccess(
         'Successfully added ' + successfullyIndexedRecordCount + ' features to ' + indexName
@@ -174,6 +176,11 @@ const VectorUploadOptions = (props: RegionMapOptionsProps) => {
     if (successfullyIndexedRecordCount > 0 && failedToIndexRecordCount > 0) {
       const title = 'Partially indexed ' + successfullyIndexedRecordCount + ' of ' + 
                     totalRecords + ' features in ' + indexName;
+      const showModalProps = {
+        modalTitle: 'Error Details',
+        modalBody: JSON.stringify(result.resp.failures),
+        buttonText: 'View error details'
+      }
       notifications.toasts.addDanger({
         title: title,
         iconType: 'alert',
@@ -182,7 +189,7 @@ const VectorUploadOptions = (props: RegionMapOptionsProps) => {
             <p>There were {failedToIndexRecordCount} errors processing the custom map.</p>
             <EuiFlexGroup justifyContent="flexEnd" gutterSize="s">
               <EuiFlexItem grow={false}>
-                <EuiButton size="s">View error details</EuiButton>
+                <ShowModal {...showModalProps}/>
               </EuiFlexItem>
             </EuiFlexGroup>
           </div>
