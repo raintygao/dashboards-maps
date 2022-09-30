@@ -20,3 +20,25 @@ export const MAP_INITIAL_STATE = {
 export const APP_PATH = {
   CREATE_MAP: '/create-map',
 };
+
+/**
+ * https://maplibre.org/maplibre-gl-js-docs/api/sources/
+ */
+export const LAYER_SOURCE_TYPE = {
+  CLUSTER: 'geospatial',
+};
+
+/**
+ * https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/#type
+ */
+export const LAYER_TYPE = {
+  FILL: 'fill',
+  LINE: 'line',
+  SYMBOL: 'symbol',
+  CIRCLE: 'circle',
+  HEATMAP: 'heatmap',
+  FILL_EXTRUSION: 'fill-extrusion',
+  RASTER: 'raster',
+  HILLSHADE: 'hillshade',
+  BACKGROUND: 'background'
+};
